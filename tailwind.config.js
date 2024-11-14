@@ -3,13 +3,16 @@ const { hairlineWidth, platformSelect } = require('nativewind/theme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   // NOTE: Update this to include the paths to all of your component files.
-  content: ['./app/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+  content: ['./src/app/**/*.{js,jsx,ts,tsx}', './src/components/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
       colors: {
+        fg: withOpacity('foreground'),
+        bg: withOpacity('background'),
         border: withOpacity('border'),
         input: withOpacity('input'),
+        inputDisabled: withOpacity('input-disabled'),
         ring: withOpacity('ring'),
         background: withOpacity('background'),
         foreground: withOpacity('foreground'),
@@ -42,12 +45,31 @@ module.exports = {
           foreground: withOpacity('card-foreground'),
         },
       },
+      fontSize: {
+        sm: 'var(--text-sm)',
+        base: 'var(--text-base)',
+        lg: 'var(--text-lg)',
+        xl: 'var(--text-xl)',
+      },
+      fontWeight: {
+        normal: 'var(--font-normal)',
+        medium: 'var(--font-medium)',
+        bold: 'var(--font-bold)',
+      },
       borderWidth: {
         hairline: hairlineWidth(),
       },
     },
   },
-  plugins: [],
+  plugins: [
+    ({ addBase }) =>
+      addBase({
+        ':root': {
+          '--background': '0 0 0',
+          '--foreground': '255 255 255',
+        },
+      }),
+  ],
 };
 
 function withOpacity(variableName) {
